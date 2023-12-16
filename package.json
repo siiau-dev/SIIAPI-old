@@ -1,0 +1,45 @@
+{
+  "name": "siiapi",
+  "version": "0.1.0-grupos",
+  "description": "SIIAU en forma de API!",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/main.js",
+    "dev": "nodemon src/main.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lordfriky/SIIAPI.git"
+  },
+  "keywords": [
+    "udg",
+    "siiau",
+    "edu",
+    "student"
+  ],
+  "author": "Lord Friky",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lordfriky/SIIAPI/issues"
+  },
+  "homepage": "https://github.com/lordfriky/SIIAPI#readme",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "jsdom": "^23.0.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsdom": "^21.1.6",
+    "@types/node": "^20.10.4",
+    "nodemon": "^3.0.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
