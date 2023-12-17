@@ -1,6 +1,6 @@
-import {AxiosResponse} from "axios";
+import { AxiosResponse } from "axios";
 import * as jsdom from "jsdom";
-import { requestSIIAU } from "../shared";
+import { requestSIIAU, updateExpiration } from "../shared";
 import { CredencialesSIIAU, AlumnoSIIAU, ErrorSIIAU } from "../types";
 
 export function areCredencialesValidas(credenciales: CredencialesSIIAU): boolean {
@@ -29,11 +29,9 @@ export async function inicioSesion(credenciales: CredencialesSIIAU): Promise<Alu
   const extPayload = JSON.parse(JSON.stringify(payload));
   for (let i = 1; i <= 4; i++) extPayload["p"+i] = 'a';
   
-  console.log("Primer request");
   const stage_1: AxiosResponse | ErrorSIIAU = await requestSIIAU("https://siiauescolar.siiau.udg.mx/wus/gupprincipal.forma_inicio", "get");
   if (stage_1.hasOwnProperty("codigo")) return stage_1 as ErrorSIIAU;
   
-  console.log("Segundo request");
   const stage_2: AxiosResponse | ErrorSIIAU = await requestSIIAU("https://siiauescolar.siiau.udg.mx/wus/gupprincipal.forma_inicio_bd", "post", extPayload);
   if (stage_2.hasOwnProperty("codigo")) return stage_2 as ErrorSIIAU;
 
@@ -50,9 +48,24 @@ export async function inicioSesion(credenciales: CredencialesSIIAU): Promise<Alu
     if (pid !== null) {
       alumno.pid = parseInt(pid as string);
       alumno.cookies = (stage_3 as AxiosResponse).headers["set-cookie"]?.map(str => str.replace(";path=/", "")) as Array<string>;
-      alumno.expiration = 0;
+      alumno.expiration = updateExpiration();
       return alumno;
     }
+  }
+
+  const inicioSesionInvalido: Element | null = pidParser.window.document.querySelector("script");
+
+  if (inicioSesionInvalido){
+    if (inicioSesionInvalido.innerHTML === "alert('Los datos proporcionados no son validos');")
+      return {
+        codigo: 400,
+        error: "Las credenciales son inválidas. Inténtalo de nuevo."
+      } as ErrorSIIAU;
+    else if (inicioSesionInvalido.innerHTML === 'document.location.replace("gupuweb.bloqueo");')
+      return {
+        codigo: 503,
+        error: "Tu accesso a SIIAU ha sido bloqueado temporalmente. Inténtalo más tarde."
+      } as ErrorSIIAU;
   }
 
   return {

@@ -22,3 +22,6 @@ export async function requestSIIAU(url: string, metodo: "get" | "post", data?: a
     return {codigo: 503, error: "Hubo un error al realizar la solicitud. Inténtalo más tarde. " + _error} as ErrorSIIAU;
   }
 } 
+
+const ExpirationTimeSIIAU: number = 0;
+export const updateExpiration = (): number => Date.now() + ExpirationTimeSIIAU;
