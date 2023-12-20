@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import * as jsdom from "jsdom";
-import { requestSIIAU, updateExpiration } from "../shared";
-import { CredencialesSIIAU, AlumnoSIIAU, ErrorSIIAU } from "../types";
+import { requestSIIAU, updateExpiration } from "../shared/shared.services";
+import { CredencialesSIIAU, AlumnoSIIAU, ErrorSIIAU } from "../shared/shared.types";
 
 export function areCredencialesValidas(credenciales: CredencialesSIIAU): boolean {
   let validas: boolean = true;

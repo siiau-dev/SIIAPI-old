@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { areCredencialesValidas, inicioSesion } from "./auth.services";
-import { CredencialesSIIAU, ErrorSIIAU } from "../types";
+import { CredencialesSIIAU, ErrorSIIAU } from "../shared/shared.types";
 
 
 export const router: Router = Router({mergeParams: true});
