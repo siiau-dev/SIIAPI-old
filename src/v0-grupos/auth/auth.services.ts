@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import * as jsdom from "jsdom";
+import { EnlacesAlumnoSIIAU } from "../shared/shared.links";
 import { requestSIIAU, updateExpiration } from "../shared/shared.services";
 import { CredencialesSIIAU, AlumnoSIIAU, ErrorSIIAU } from "../shared/shared.types";
 
@@ -29,16 +30,16 @@ export async function inicioSesion(credenciales: CredencialesSIIAU): Promise<Alu
   const extPayload = JSON.parse(JSON.stringify(payload));
   for (let i = 1; i <= 4; i++) extPayload["p"+i] = 'a';
   
-  const stage_1: AxiosResponse | ErrorSIIAU = await requestSIIAU("https://siiauescolar.siiau.udg.mx/wus/gupprincipal.forma_inicio", "get");
-  if (stage_1.hasOwnProperty("codigo")) return stage_1 as ErrorSIIAU;
+  const respuestaPaso1: AxiosResponse | ErrorSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullAuthPaso1URL(), "get");
+  if (respuestaPaso1.hasOwnProperty("codigo")) return respuestaPaso1 as ErrorSIIAU;
   
-  const stage_2: AxiosResponse | ErrorSIIAU = await requestSIIAU("https://siiauescolar.siiau.udg.mx/wus/gupprincipal.forma_inicio_bd", "post", extPayload);
-  if (stage_2.hasOwnProperty("codigo")) return stage_2 as ErrorSIIAU;
+  const respuestaPaso2: AxiosResponse | ErrorSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullAuthPaso2URL(), "post", extPayload);
+  if (respuestaPaso2.hasOwnProperty("codigo")) return respuestaPaso2 as ErrorSIIAU;
 
-  const stage_3: AxiosResponse | ErrorSIIAU = await requestSIIAU("https://siiauescolar.siiau.udg.mx/wus/GUPPRINCIPAL.VALIDA_INICIO", "post", payload);
-  if (stage_3.hasOwnProperty("codigo")) return stage_3 as ErrorSIIAU;
+  const respuestaPaso3: AxiosResponse | ErrorSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullAuthPaso3URL(), "post", payload);
+  if (respuestaPaso3.hasOwnProperty("codigo")) return respuestaPaso3 as ErrorSIIAU;
 
-  const pidResponseText: string = (stage_3 as AxiosResponse).data;
+  const pidResponseText: string = (respuestaPaso3 as AxiosResponse).data;
   const pidParser = new jsdom.JSDOM(pidResponseText);
 
   const pidElem: Element | null = pidParser.window.document.querySelector("input[name='p_pidm_n']");
@@ -47,7 +48,7 @@ export async function inicioSesion(credenciales: CredencialesSIIAU): Promise<Alu
     const pid: string | null = pidElem.getAttribute("value");
     if (pid !== null) {
       alumno.pid = parseInt(pid as string);
-      alumno.cookies = (stage_3 as AxiosResponse).headers["set-cookie"]?.map(str => str.replace(";path=/", "")) as Array<string>;
+      alumno.cookies = (respuestaPaso3 as AxiosResponse).headers["set-cookie"]?.map(str => str.replace(";path=/", "")) as Array<string>;
       alumno.expiration = updateExpiration();
       return alumno;
     }
