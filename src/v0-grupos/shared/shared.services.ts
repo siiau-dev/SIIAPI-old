@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 const axios = require("axios");
-import { ErrorSIIAU } from "./types";
+import { ErrorSIIAU } from "./shared.types";
 
 const toUrlEncoded = (obj: any): string => Object.keys(obj).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(obj[k])).join('&');
 
