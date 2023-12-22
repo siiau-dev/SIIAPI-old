@@ -1,8 +1,8 @@
 import { AxiosResponse } from "axios";
-import * as jsdom from "jsdom";
+import { JSDOM } from "jsdom";
 import { EnlacesAlumnoSIIAU } from "../shared/shared.links";
 import { requestSIIAU, updateExpiration } from "../shared/shared.services";
-import { CredencialesSIIAU, AlumnoSIIAU, ErrorSIIAU } from "../shared/shared.types";
+import { CredencialesSIIAU, AlumnoSIIAU, RespuestaSIIAU, ErrorSIIAU } from "../shared/shared.types";
 
 export function areCredencialesValidas(credenciales: CredencialesSIIAU): boolean {
   let validas: boolean = true;
@@ -30,17 +30,17 @@ export async function inicioSesion(credenciales: CredencialesSIIAU): Promise<Alu
   const extPayload = JSON.parse(JSON.stringify(payload));
   for (let i = 1; i <= 4; i++) extPayload["p"+i] = 'a';
   
-  const respuestaPaso1: AxiosResponse | ErrorSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullAuthPaso1URL(), "get");
+  const respuestaPaso1: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullAuthPaso1URL(), "get");
   if (respuestaPaso1.hasOwnProperty("codigo")) return respuestaPaso1 as ErrorSIIAU;
   
-  const respuestaPaso2: AxiosResponse | ErrorSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullAuthPaso2URL(), "post", extPayload);
+  const respuestaPaso2: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullAuthPaso2URL(), "post", extPayload);
   if (respuestaPaso2.hasOwnProperty("codigo")) return respuestaPaso2 as ErrorSIIAU;
 
-  const respuestaPaso3: AxiosResponse | ErrorSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullAuthPaso3URL(), "post", payload);
+  const respuestaPaso3: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullAuthPaso3URL(), "post", payload);
   if (respuestaPaso3.hasOwnProperty("codigo")) return respuestaPaso3 as ErrorSIIAU;
 
   const pidResponseText: string = (respuestaPaso3 as AxiosResponse).data;
-  const pidParser = new jsdom.JSDOM(pidResponseText);
+  const pidParser: JSDOM = new JSDOM(pidResponseText);
 
   const pidElem: Element | null = pidParser.window.document.querySelector("input[name='p_pidm_n']");
 

@@ -1,7 +1,11 @@
+import { AxiosResponse } from "axios";
+
 export type ErrorSIIAU = {
   codigo: number;
   error: string;
 };
+
+export type RespuestaSIIAU = AxiosResponse | ErrorSIIAU; 
 
 export type CredencialesSIIAU = {
   codigo: string;
