@@ -1,5 +1,5 @@
 import { AxiosHeaders, AxiosResponse } from "axios";
-const axios = require("axios").default;
+const axios = require("axios")
 import { JSDOM } from "jsdom";
 import { ErrorSIIAU, RespuestaSIIAU } from "./shared.types";
 
@@ -7,13 +7,14 @@ const toUrlEncoded = (obj: any): string => Object.keys(obj).map(k => encodeURICo
 
 export async function requestSIIAU(url: string, metodo: "get" | "post", data?: any, cookies?: Array<string>): Promise<RespuestaSIIAU> {
   let response: AxiosResponse;
+
   try {
     response = await axios({
       url: url,
       method: metodo,
       transformRequest: [(data: any, _headers: AxiosHeaders): string => typeof data === "string" ? data : toUrlEncoded(data)],
       headers: {
-        'Cookie': cookies ? cookies.join(";") : ""
+        'Cookie': cookies ? cookies.join("; ") : ""
       },
       data: data ? data : "",
       withCredentials: true
@@ -34,12 +35,13 @@ export async function requestSIIAU(url: string, metodo: "get" | "post", data?: a
   }
 
   const isExpiredParser: JSDOM = new JSDOM(response.data);
-  const isExpiredElem: Element | null = isExpiredParser.window.document.querySelector("script");
-  if (isExpiredElem && isExpiredElem.innerHTML.trim() === 'if (window.name == "") {location.href="gspsweb.error"}') return {
+  const isExpiredElem: NodeListOf<Element> | null = isExpiredParser.window.document.querySelectorAll("script");
+  
+  // Si alguien tiene una mejor idea de cómo hacer esto por favor mande pr
+  if (isExpiredElem && (isExpiredElem as NodeListOf<Element>).length > 1 && (isExpiredElem as NodeListOf<Element>)[1].innerHTML.replace(/[\r\n\s]+/g, "") == "alert(\"SESIONINVALIDAOTERMINADAPORINACTIVIDAD\");window.parent.parent.location.href=\"gupprincipal.salir\";") return {
     codigo: 422,
     error: "La sesión ha expirado. Vuelve a iniciar sesión."
   } as ErrorSIIAU;
-
 
   return response;
 } 

@@ -15,6 +15,7 @@ export type CredencialesSIIAU = {
 export type AlumnoSIIAU = {
   pid: number;
   cookies: Array<string>;
+  majors: Array<string>;
   expiration: number;
 };
 

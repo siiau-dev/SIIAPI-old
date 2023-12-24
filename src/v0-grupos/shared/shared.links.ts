@@ -21,4 +21,7 @@ export const EnlacesAlumnoSIIAU: any = {
 
   authPaso3URL: "/wus/GUPPRINCIPAL.VALIDA_INICIO",
   getFullAuthPaso3URL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.authPaso3URL, metodo)},
+
+  authCarrerasURL: "/wal/gupmenug.menu",
+  getFullAuthCarrerasURL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.authCarrerasURL, metodo)},
 };

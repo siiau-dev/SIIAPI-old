@@ -39,8 +39,7 @@ export async function inicioSesion(credenciales: CredencialesSIIAU): Promise<Alu
   const respuestaPaso3: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullAuthPaso3URL(), "post", payload);
   if (respuestaPaso3.hasOwnProperty("codigo")) return respuestaPaso3 as ErrorSIIAU;
 
-  const pidResponseText: string = (respuestaPaso3 as AxiosResponse).data;
-  const pidParser: JSDOM = new JSDOM(pidResponseText);
+  const pidParser: JSDOM = new JSDOM((respuestaPaso3 as AxiosResponse).data);
 
   const pidElem: Element | null = pidParser.window.document.querySelector("input[name='p_pidm_n']");
 
@@ -49,6 +48,7 @@ export async function inicioSesion(credenciales: CredencialesSIIAU): Promise<Alu
     if (pid !== null) {
       alumno.pid = parseInt(pid as string);
       alumno.cookies = (respuestaPaso3 as AxiosResponse).headers["set-cookie"]?.map(str => str.replace(";path=/", "")) as Array<string>;
+      alumno.majors = await getCarreras(alumno.pid, alumno.cookies);
       alumno.expiration = updateExpiration();
       return alumno;
     }
@@ -74,4 +74,34 @@ export async function inicioSesion(credenciales: CredencialesSIIAU): Promise<Alu
     error: "Hubo un error al autenticar en SIIAU. Inténtalo más tarde."
   } as ErrorSIIAU;
 
+}
+
+async function getCarreras(pidAlumno: number, cookiesAlumno: Array<string>): Promise<Array<string>> {
+  let carreras = [] as Array<string>;
+
+  const payload = {
+    "p_sistema_c": "ALUMNOS",
+    "p_sistemaid_n": 3,
+    "p_menupredid_n": 3,
+    "p_pidm_n": pidAlumno
+  };
+
+  const respuestaCarreras: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullAuthCarrerasURL(), "post", payload, cookiesAlumno); // Todo: request error handler
+
+  const carrerasParser: JSDOM = new JSDOM((respuestaCarreras as AxiosResponse).data);
+  const carrerasElem: Element | null = carrerasParser.window.document.querySelector("select[name='p_carrera']");
+
+  if (carrerasElem) {
+    for (let i = 0; i < (carrerasElem as HTMLSelectElement).length; i++) {
+      const carrera = (carrerasElem as HTMLSelectElement).options[i].text
+      carreras.push(carrera.substr(0, carrera.indexOf("-")));
+    }
+  } else {
+    const carreraElem: Element = carrerasParser.window.document.querySelector("a[href^='sgpofer.secciones']") as Element;
+
+    const carreraLink: string = carreraElem.getAttribute("href") as string;
+    carreras.push(carreraLink.substr(carreraLink.indexOf("majrp=") + 6));
+  }
+  
+  return carreras;
 }
