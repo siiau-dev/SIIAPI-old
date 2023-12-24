@@ -10,10 +10,10 @@ export function areCredencialesValidas(credenciales: CredencialesSIIAU): boolean
   const patronNip: RegExp = /^[a-zA-Z0-9]{1,10}$/;
 
   if (!credenciales.codigo) validas = false;
-  if (!patronCodigo.test(credenciales.codigo)) validas = false;
+  else if (!patronCodigo.test(credenciales.codigo)) validas = false;
 
   if (!credenciales.nip) validas = false;
-  if (!patronNip.test(credenciales.nip)) validas = false;
+  else if (!patronNip.test(credenciales.nip)) validas = false;
 
   return validas;
 } 

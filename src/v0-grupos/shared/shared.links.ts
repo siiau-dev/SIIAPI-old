@@ -24,4 +24,11 @@ export const EnlacesAlumnoSIIAU: any = {
 
   authCarrerasURL: "/wal/gupmenug.menu",
   getFullAuthCarrerasURL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.authCarrerasURL, metodo)},
+
+  /**
+   * Horario
+   */
+
+  horarioURL: "/wal/sfpcoal.horario",
+  getFullHorarioURL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.horarioURL, metodo)},
 };

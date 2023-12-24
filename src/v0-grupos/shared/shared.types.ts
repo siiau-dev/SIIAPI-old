@@ -19,7 +19,20 @@ export type AlumnoSIIAU = {
   expiration: number;
 };
 
-//type MateriaSIIAU = {};
+export interface RequestBasicoSIIAU {
+  pid: number;
+  cookies: Array<string>;
+  major: string;
+}
+
+export interface RequestCicloSIIAU extends RequestBasicoSIIAU {
+  ciclo: string;
+}
+
+export type MateriaSIIAU = {
+  clave: string;
+  nrc: number;
+};
 
 export type DiasSIIAU = "L" | "M" | "I" | "J" | "V" | "S";
 

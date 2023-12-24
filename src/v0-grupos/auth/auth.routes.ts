@@ -17,7 +17,7 @@ router.post("/", (req: Request, res: Response): void => {
   }
 
   inicioSesion(credenciales)
-  .then( response => {
+  .then(response => {
     if (response.hasOwnProperty("codigo"))
       res.status((response as ErrorSIIAU).codigo).send(response);
     else

@@ -1,10 +1,12 @@
 import { AxiosHeaders, AxiosResponse } from "axios";
-const axios = require("axios")
+// axios parece tener un bug que no me deja hacer requests al importarlo con la versión que estoy utilizando, si corrigen esto en el futuro por favor hagan un pr haciendo los cambios correspondientes y cambiando la versión requerida.
+const axios = require("axios");
 import { JSDOM } from "jsdom";
 import { ErrorSIIAU, RespuestaSIIAU } from "./shared.types";
 
 const toUrlEncoded = (obj: any): string => Object.keys(obj).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(obj[k])).join('&');
 
+// Esta función debería regresar el DOM?
 export async function requestSIIAU(url: string, metodo: "get" | "post", data?: any, cookies?: Array<string>): Promise<RespuestaSIIAU> {
   let response: AxiosResponse;
 
