@@ -24,7 +24,7 @@
 
 const siiapi_version: string = (process.env.npm_package_version ? process.env.npm_package_version : "???");
 console.log("Iniciando SIIAPI " + siiapi_version + "...");
-console.log("Para más información visita https://api.siiau.dev\n");
+console.log("Para más información visita https://github.com/lordfriky/SIIAPI\n");
 
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
