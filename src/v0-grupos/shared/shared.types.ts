@@ -15,14 +15,14 @@ export type CredencialesSIIAU = {
 export type AlumnoSIIAU = {
   pid: number;
   cookies: Array<string>;
-  majors: Array<string>;
-  expiration: number;
+  carreras: Array<string>;
+  expiracion: number;
 };
 
 export interface RequestBasicoSIIAU {
   pid: number;
   cookies: Array<string>;
-  major: string;
+  carrera: string;
 }
 
 export interface RequestCicloSIIAU extends RequestBasicoSIIAU {

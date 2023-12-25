@@ -1,8 +1,8 @@
 import { AxiosResponse } from "axios";
 import { JSDOM } from "jsdom";
-import { EnlacesAlumnoSIIAU } from "../shared/shared.links";
-import { requestSIIAU } from "../shared/shared.services";
-import { RequestCicloSIIAU, MateriaSIIAU, RespuestaSIIAU, ErrorSIIAU } from "../shared/shared.types";
+import { EnlacesAlumnoSIIAU } from "../../shared/shared.links";
+import { requestSIIAU } from "../../shared/shared.services";
+import { RequestCicloSIIAU, MateriaSIIAU, RespuestaSIIAU, ErrorSIIAU } from "../../shared/shared.types";
 
 // Esto debería ir en shared services?
 export function isRequestCicloValido(request: RequestCicloSIIAU): boolean {
@@ -23,8 +23,8 @@ export function isRequestCicloValido(request: RequestCicloSIIAU): boolean {
   });
 
   // Las carreras en CUCEI tienen de 3 a 4 letras mayúsculas como clave, no estoy seguro cómo sea en otros centros pero por la prueba lo validaré así
-  if (!request.major) valido = false;
-  else if (!patronCarrera.test(request.major)) valido = false;
+  if (!request.carrera) valido = false;
+  else if (!patronCarrera.test(request.carrera)) valido = false;
 
   if (!request.ciclo) valido = false;
   else if (!patronCiclo.test(request.ciclo)) valido = false;
@@ -38,7 +38,7 @@ export async function getListaMaterias(request: RequestCicloSIIAU): Promise<Arra
   const payload = {
     "pidmp": request.pid,
     "ciclop": request.ciclo,
-    "majrp": request.major
+    "majrp": request.carrera
   }
 
   const respuestaHorario: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullHorarioURL(), "post", payload, request.cookies);

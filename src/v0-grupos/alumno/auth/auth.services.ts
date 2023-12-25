@@ -1,8 +1,8 @@
 import { AxiosResponse } from "axios";
 import { JSDOM } from "jsdom";
-import { EnlacesAlumnoSIIAU } from "../shared/shared.links";
-import { requestSIIAU, updateExpiration } from "../shared/shared.services";
-import { CredencialesSIIAU, AlumnoSIIAU, RespuestaSIIAU, ErrorSIIAU } from "../shared/shared.types";
+import { EnlacesAlumnoSIIAU } from "../../shared/shared.links";
+import { requestSIIAU, updateExpiration } from "../../shared/shared.services";
+import { CredencialesSIIAU, AlumnoSIIAU, RespuestaSIIAU, ErrorSIIAU } from "../../shared/shared.types";
 
 export function areCredencialesValidas(credenciales: CredencialesSIIAU): boolean {
   let validas: boolean = true;
@@ -48,8 +48,8 @@ export async function inicioSesion(credenciales: CredencialesSIIAU): Promise<Alu
     if (pid !== null) {
       alumno.pid = parseInt(pid as string);
       alumno.cookies = (respuestaPaso3 as AxiosResponse).headers["set-cookie"]?.map(str => str.replace(";path=/", "")) as Array<string>;
-      alumno.majors = await getCarreras(alumno.pid, alumno.cookies);
-      alumno.expiration = updateExpiration();
+      alumno.carreras = await getCarreras(alumno.pid, alumno.cookies);
+      alumno.expiracion = updateExpiration();
       return alumno;
     }
   }

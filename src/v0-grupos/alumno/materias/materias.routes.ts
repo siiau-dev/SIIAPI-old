@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
-import { isRequestCicloValido, getListaMaterias } from "./horario.services";
-import { RequestCicloSIIAU, ErrorSIIAU } from "../shared/shared.types"; 
+import { isRequestCicloValido, getListaMaterias } from "./materias.services";
+import { RequestCicloSIIAU, ErrorSIIAU } from "../../shared/shared.types"; 
 
 export const router: Router = Router({mergeParams: true});
 

@@ -45,9 +45,9 @@ app.use(helmet());
 app.use("/v0-grupos", v0gruposRoutes.router);
 
 app.get("/", (_req: Request, res: Response) => {
-  res.send("Ola, pero no ola de mar, ola de salu2");
+  res.sendFile("views/index.html", {root: __dirname});
 });
 
 app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
+  console.log(`[server]: Server corriendo en puerto ${port}`);
 });
