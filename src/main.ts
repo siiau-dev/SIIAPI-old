@@ -39,8 +39,12 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cors());
 app.use(helmet());
+
+// Debido a que este primer release está destinado a ser utilizado sólo para la aplicación de los grupos, CORS es incluído. No es la mejor manera para prevenir que las personas usen esta API, pero quizás podrá ser suficiente para que algunos sepan que no deberían usarla aún.
+app.use(cors({
+  origin: !process.env.DISABLE_CORS || ["https://grupos.lordfriky.dev"] // Todo: definir url final
+}));
 
 app.use("/v0-grupos", v0gruposRoutes.router);
 
