@@ -29,24 +29,49 @@ export interface RequestCicloSIIAU extends RequestBasicoSIIAU {
   ciclo: string;
 }
 
-export type MateriaSIIAU = {
+export interface MateriaSIIAU {
   clave: string;
   nrc: number;
-};
+}
+
+export interface ConsultaMateriaSIIAU extends MateriaSIIAU {
+  centro: string;
+  ciclo: string;
+}
+
 
 export type DiasSIIAU = "L" | "M" | "I" | "J" | "V" | "S";
 
 export type HorarioMateriaSIIAU = {
-  sesion: number;
+  hora: {
+    inicio: string;
+    final: string;
+  };
   dias: Array<DiasSIIAU>;
-  horaInicio: number;
-  horaFinal: number;
-  edificio: string;
+  salon: {
+    edificio: string;
+    aula: string;
+  };
 };
+
+export type SesionMateriaSIIAU = {
+  id: number;
+  profesor: string;
+  horarios: Array<HorarioMateriaSIIAU>;
+};
+
+export type MaestroMateriaSIIAU = {
+  sesion: number;
+  nombre: string;
+}
 
 export type InfoMateriaSIIAU = {
   nombre: string;
   seccion: string;
   creditos: number;
-  horarios: Array<HorarioMateriaSIIAU>;
+  cupo: {
+    total: number;
+    registrados: number;
+  };
+  sesiones: Array<SesionMateriaSIIAU>;
 };

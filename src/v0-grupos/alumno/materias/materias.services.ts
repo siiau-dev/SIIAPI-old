@@ -39,7 +39,7 @@ export async function getListaMaterias(request: RequestCicloSIIAU): Promise<Arra
     "pidmp": request.pid,
     "ciclop": request.ciclo,
     "majrp": request.carrera
-  }
+  };
 
   const respuestaHorario: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.alumno.getFullHorarioURL(), "post", payload, request.cookies);
   if (respuestaHorario.hasOwnProperty("codigo")) return respuestaHorario as ErrorSIIAU;

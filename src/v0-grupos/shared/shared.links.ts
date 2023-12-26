@@ -38,4 +38,18 @@ export const EnlacesAlumnoSIIAU: any = {
     materiasURL: "/wal/sfpcoal.horario",
     getFullMateriasURL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.materiasURL, metodo)},
   },
+
+  //////////////////////
+  // Oferta académica //
+  //////////////////////
+
+  oferta: {
+
+    /**
+     * Consulta
+     */
+
+    consultaURL: "/wal/sspseca.consulta_oferta",
+    getFullConsultaURL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.consultaURL, metodo)},
+  }
 };
