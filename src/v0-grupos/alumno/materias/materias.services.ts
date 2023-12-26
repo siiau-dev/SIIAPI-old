@@ -12,7 +12,7 @@ export function isRequestCicloValido(request: RequestCicloSIIAU): boolean {
   const patronCiclo: RegExp = /^(?=(?:\D*\d){4}[^\d]*$)\d{4}[a-zA-Z]$|^\d{6}$/;
 
   if (!request.pid) valido = false;
-  else if (!patronPid.test(request.pid.toString())) valido = false;
+  else if (typeof request.pid !== "number" || !patronPid.test(request.pid.toString())) valido = false;
 
   // No estoy seguro de cómo validar la cookie SIIAUSESSION, ya que en mis pruebas me ha retornado enteros de 8, 9 o 10 dígitos (y posiblemente otra cantidad), por lo que sólo validaré la cookie SIIAUUDG
   if ((!request.cookies) || (!Array.isArray(request.cookies))) valido = false;
@@ -41,7 +41,7 @@ export async function getListaMaterias(request: RequestCicloSIIAU): Promise<Arra
     "majrp": request.carrera
   }
 
-  const respuestaHorario: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullHorarioURL(), "post", payload, request.cookies);
+  const respuestaHorario: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.alumno.getFullHorarioURL(), "post", payload, request.cookies);
   if (respuestaHorario.hasOwnProperty("codigo")) return respuestaHorario as ErrorSIIAU;
   const horarioParser: JSDOM = new JSDOM((respuestaHorario as AxiosResponse).data);
   const tablaHorarioElem: Element | null = horarioParser.window.document.querySelector("table[align='center']");

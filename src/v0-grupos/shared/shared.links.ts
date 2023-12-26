@@ -9,26 +9,33 @@ const __contruirUrlCompleta = (enlace: string, metodo?: Metodo, base: string = _
 const __baseURLSIIAU = "siiauescolar.siiau.udg.mx"; 
 
 export const EnlacesAlumnoSIIAU: any = {
-  /**
-   * Auth
-   */
+  ////////////
+  // Alumno //
+  ////////////
 
-  authPaso1URL: "/wus/gupprincipal.forma_inicio",
-  getFullAuthPaso1URL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.authPaso1URL, metodo)},
+  alumno: {
 
-  authPaso2URL: "/wus/gupprincipal.forma_inicio_bd",
-  getFullAuthPaso2URL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.authPaso2URL, metodo)},
+    /**
+    * Auth
+    */
 
-  authPaso3URL: "/wus/GUPPRINCIPAL.VALIDA_INICIO",
-  getFullAuthPaso3URL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.authPaso3URL, metodo)},
+    authPaso1URL: "/wus/gupprincipal.forma_inicio",
+    getFullAuthPaso1URL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.authPaso1URL, metodo)},
 
-  authCarrerasURL: "/wal/gupmenug.menu",
-  getFullAuthCarrerasURL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.authCarrerasURL, metodo)},
+    authPaso2URL: "/wus/gupprincipal.forma_inicio_bd",
+    getFullAuthPaso2URL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.authPaso2URL, metodo)},
 
-  /**
-   * Horario
-   */
+    authPaso3URL: "/wus/GUPPRINCIPAL.VALIDA_INICIO",
+    getFullAuthPaso3URL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.authPaso3URL, metodo)},
 
-  horarioURL: "/wal/sfpcoal.horario",
-  getFullHorarioURL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.horarioURL, metodo)},
+    authCarrerasURL: "/wal/gupmenug.menu",
+    getFullAuthCarrerasURL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.authCarrerasURL, metodo)},
+
+    /**
+    * Materias
+    */
+
+    materiasURL: "/wal/sfpcoal.horario",
+    getFullMateriasURL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.materiasURL, metodo)},
+  },
 };

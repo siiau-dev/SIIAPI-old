@@ -30,13 +30,13 @@ export async function inicioSesion(credenciales: CredencialesSIIAU): Promise<Alu
   const extPayload = JSON.parse(JSON.stringify(payload));
   for (let i = 1; i <= 4; i++) extPayload["p"+i] = 'a';
   
-  const respuestaPaso1: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullAuthPaso1URL(), "get");
+  const respuestaPaso1: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.alumno.getFullAuthPaso1URL(), "get");
   if (respuestaPaso1.hasOwnProperty("codigo")) return respuestaPaso1 as ErrorSIIAU;
   
-  const respuestaPaso2: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullAuthPaso2URL(), "post", extPayload);
+  const respuestaPaso2: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.alumno.getFullAuthPaso2URL(), "post", extPayload);
   if (respuestaPaso2.hasOwnProperty("codigo")) return respuestaPaso2 as ErrorSIIAU;
 
-  const respuestaPaso3: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullAuthPaso3URL(), "post", payload);
+  const respuestaPaso3: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.alumno.getFullAuthPaso3URL(), "post", payload);
   if (respuestaPaso3.hasOwnProperty("codigo")) return respuestaPaso3 as ErrorSIIAU;
 
   const pidParser: JSDOM = new JSDOM((respuestaPaso3 as AxiosResponse).data);
@@ -86,7 +86,7 @@ async function getCarreras(pidAlumno: number, cookiesAlumno: Array<string>): Pro
     "p_pidm_n": pidAlumno
   };
 
-  const respuestaCarreras: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.getFullAuthCarrerasURL(), "post", payload, cookiesAlumno); // Todo: request error handler
+  const respuestaCarreras: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.alumno.getFullAuthCarrerasURL(), "post", payload, cookiesAlumno); // Todo: request error handler
 
   const carrerasParser: JSDOM = new JSDOM((respuestaCarreras as AxiosResponse).data);
   const carrerasElem: Element | null = carrerasParser.window.document.querySelector("select[name='p_carrera']");
