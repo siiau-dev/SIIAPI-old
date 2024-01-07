@@ -23,10 +23,17 @@ export async function requestSIIAU(url: string, metodo: "get" | "post", data?: a
     });
   } catch (error) {
     console.log("Error al mandar solicitud. " + error);
-    return {
-      codigo: 503,
-      error: "Hubo un error al realizar la solicitud. Inténtalo más tarde."
-    } as ErrorSIIAU;
+    const errorResponse = {} as ErrorSIIAU;
+
+    if ((error as Error).message.includes("socket hang up")){
+      errorResponse.codigo = 503;
+      errorResponse.error = "SIIAU parece estar caído. Inténtalo más tarde"
+    } else {
+      errorResponse.codigo = 503;
+      errorResponse.error = "Hubo un error al realizar la solicitud. Inténtalo más tarde."
+    }
+
+    return errorResponse;
   }
 
   if (response.status !== 200) {
