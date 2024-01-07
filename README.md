@@ -28,12 +28,12 @@ SIIAU en forma de API! 🧑🏻‍💻🦁
 [version-shield]: https://img.shields.io/badge/VERSION-v0--grupos-brightgreen?style=for-the-badge
 
 <!-- Badges dinmámicos -->
-[issues-shield]: https://img.shields.io/github/issues/lordfriky/siiapi.svg?style=for-the-badge
-[issues-url]: https://github.com/lordfriky/siiapi/issues
-[forks-shield]: https://img.shields.io/github/forks/lordfriky/siiapi.svg?style=for-the-badge
-[forks-url]: https://github.com/lordfriky/siiapi/network/members
-[stars-shield]: https://img.shields.io/github/stars/lordfriky/siiapi.svg?style=for-the-badge
-[stars-url]: https://github.com/lordfriky/siiapi/stargazers
+[issues-shield]: https://img.shields.io/github/issues/siiau-dev/siiapi.svg?style=for-the-badge
+[issues-url]: https://github.com/siiau-dev/siiapi/issues
+[forks-shield]: https://img.shields.io/github/forks/siiau-dev/siiapi.svg?style=for-the-badge
+[forks-url]: https://github.com/siiau-dev/siiapi/network/members
+[stars-shield]: https://img.shields.io/github/stars/siiau-dev/siiapi.svg?style=for-the-badge
+[stars-url]: https://github.com/siiau-dev/siiapi/stargazers
 
 <!-- Enlaces varios -->
 [discord-url]: https://discord.lordfriky.dev
