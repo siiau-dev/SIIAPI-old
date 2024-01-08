@@ -51,5 +51,11 @@ export const EnlacesAlumnoSIIAU: any = {
 
     consultaURL: "/wal/sspseca.consulta_oferta",
     getFullConsultaURL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.consultaURL, metodo)},
+    
+    // Actualmente esta URL sólo funciona sobre HTTP
+    __fallbackBase: "consulta.siiau.udg.mx",
+
+    consultaFallbackURL: "/wco/sspseca.consulta_oferta",
+    getFullConsultaFallbackURL: function (metodo?: Metodo) { return __contruirUrlCompleta(this.consultaFallbackURL, metodo ? metodo : "http", this.__fallbackBase)},
   }
 };

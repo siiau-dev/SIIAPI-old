@@ -37,8 +37,15 @@ export async function getInfoClase(clase: ConsultaMateriaSIIAU): Promise<InfoMat
     "mostrarp": 99999999999999
   };
 
-  const respuestaConsulta: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.oferta.getFullConsultaURL(), "post", payload);
-  if (respuestaConsulta.hasOwnProperty("codigo")) return respuestaConsulta as ErrorSIIAU;
+  let respuestaConsulta: RespuestaSIIAU;
+  respuestaConsulta = await requestSIIAU(EnlacesAlumnoSIIAU.oferta.getFullConsultaURL(), "post", payload);
+  if (respuestaConsulta.hasOwnProperty("codigo")){
+    if ((respuestaConsulta as ErrorSIIAU).error.includes("SIIAU parece estar caído"))
+      respuestaConsulta = await requestSIIAU(EnlacesAlumnoSIIAU.oferta.getFullConsultaFallbackURL(), "post", payload);
+
+    if (respuestaConsulta.hasOwnProperty("codigo"))
+      return respuestaConsulta as ErrorSIIAU;
+  }
 
   const parser: JSDOM = new JSDOM((respuestaConsulta as AxiosResponse).data);
   const tablaConsulta: Element | null = parser.window.document.querySelector("table");
@@ -67,7 +74,6 @@ export async function getInfoClase(clase: ConsultaMateriaSIIAU): Promise<InfoMat
       // Idealmente también debería mostrar las sesiones sin profesor, pero no puedo pensar ahorita en una manera eficiente de hacerlo.
       // Worst case scenario podría repetir ciclos, de todos modos no son muchos datos.
       const sesionesTabla = materiaFila.cells[8].querySelector("table") as HTMLTableElement;
-      console.log("Sesiones --> " + sesionesTabla.rows.length);
       infoClase.sesiones = [];
       for (let j = 0; j < sesionesTabla.rows.length; j++) {
         const sesion = {} as SesionMateriaSIIAU;
