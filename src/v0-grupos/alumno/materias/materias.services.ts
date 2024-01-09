@@ -41,7 +41,7 @@ export async function getListaMaterias(request: RequestCicloSIIAU): Promise<Arra
     "majrp": request.carrera
   };
 
-  const respuestaHorario: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.alumno.getFullHorarioURL(), "post", payload, request.cookies);
+  const respuestaHorario: RespuestaSIIAU = await requestSIIAU(EnlacesAlumnoSIIAU.alumno.getFullMateriasURL(), "post", payload, request.cookies);
   if (respuestaHorario.hasOwnProperty("codigo")) return respuestaHorario as ErrorSIIAU;
   const horarioParser: JSDOM = new JSDOM((respuestaHorario as AxiosResponse).data);
   const tablaHorarioElem: Element | null = horarioParser.window.document.querySelector("table[align='center']");
